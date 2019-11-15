@@ -31,16 +31,17 @@ scene.add(ambientLight);
 ambientLight.intensity = 3;
 
 var spotLight = new THREE.SpotLight(0xffffff);
-spotLight.position.set(0, 2, 0);
+spotLight.position.set(0, 10, 0);
 spotLight.castShadow = true;
 scene.add(spotLight);
-spotLight.intensity = 1;
+spotLight.intensity = 2;
+spotLight.angle = 0.3;
 spotLight.target.position.set(0, 0, 0);
 
 var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshStandardMaterial( {color: 0xFF0000});
+var material = new THREE.MeshToonMaterial( {color: 0xFF0000});
 var cube = new THREE.Mesh( geometry, material );
-scene.add(cube);
+//scene.add(cube);
 cube.castShadow = true;
 
 geometry = new THREE.PlaneGeometry(10, 10);
@@ -51,7 +52,38 @@ scene.add( plane );
 plane.position.set(0, -1, 0);
 plane.rotation.set(Math.PI/2, 0, 0);
 
+geometry = new THREE.SphereGeometry( 1, 2, 12 );
+material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+var sphere = new THREE.Mesh( geometry, material );
+scene.add( sphere );
+sphere.position.set(1, 2, 3);
+
 camera.position.z = 5;
+
+window.onkeydown = function(event) {
+    switch(event.key) {
+        case "w":
+            camera.position.y += 0.1;
+            break;
+        case "a":
+            camera.position.x -= 0.1;
+            break;
+        case "s":
+            camera.position.y -= 0.1;
+            break;
+        case "d":
+            camera.position.x += 0.1;
+            break;
+    }
+}
+
+window.onmousemove = function(event) {
+    let dx = event.clientX - window.innerWidth / 2;
+    let dy = event.clientY - window.innerHeight / 2;
+
+    camera.rotation.x = dy / 100;
+    camera.rotation.y = -dx / 100;
+}
 
 
 //
